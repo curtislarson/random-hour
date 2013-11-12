@@ -22,7 +22,7 @@ def playSong(songList,path):
         p = subprocess.call([path,"--fullscreen","--play-and-exit","--start-time",str(startTime),"--stop-time",str(startTime + 60),"--run-time",str(60),songPath])
     
 def getDuration(songPath):
-    ffmpeg = subprocess.Popen(['/Users/larson/Development/random-hour/src/ffmpeg','-i',songPath], stderr=subprocess.STDOUT,stdout = subprocess.PIPE )
+    ffmpeg = subprocess.Popen(['./ffmpeg','-i',songPath], stderr=subprocess.STDOUT,stdout = subprocess.PIPE )
     out,err = ffmpeg.communicate()
     fileLength = ''
     if "Duration" in out:
