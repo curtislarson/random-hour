@@ -9,18 +9,26 @@ import getopt
 import subprocess
 import time
 import random
-import threading
 
-def playSong(songList,path):
+def playSongList(songList, vlcPath, numSongs):
     #print(songPath)
-    for iRange in range(60):
+    for iRange in range(numSongs):
         songPath = random.choice(songList)
         duration = int(getDuration(songPath));
         songList.remove(songPath)
         startTime = random.uniform(10,duration - 70)
-        threading.Timer(60.2,playSong,[songList,path]).start()
-        p = subprocess.call([path,"--fullscreen","--play-and-exit","--start-time",str(startTime),"--stop-time",str(startTime + 60),"--run-time",str(60),songPath])
-    
+        print('about to play song ' + songPath)
+        playSong(songPath, startTime, vlcPath)
+        
+def playSong(songPath, startTime, vlcPath):
+    subprocess.call([vlcPath,
+                    "--fullscreen",
+                    "--play-and-exit",
+                    "--start-time", str(startTime),
+                    "--stop-time", str(startTime + 5), 
+                    "--run-time", str(5),songPath])
+    print('after playSong ' + songPath)
+
 def getDuration(songPath):
     ffmpeg = subprocess.Popen(['./ffmpeg','-i',songPath], stderr=subprocess.STDOUT,stdout = subprocess.PIPE )
     out,err = ffmpeg.communicate()
@@ -62,7 +70,7 @@ def main(argv):
         if fName != ".DS_Store":
             fullDirs.append(directory + "/" + fName)
     
-    playSong(fullDirs,vlcpath)
+    playSongList(fullDirs, vlcpath, numSongs)
     
 if __name__ == '__main__':
     main(sys.argv[1:])
