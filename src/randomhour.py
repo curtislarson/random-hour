@@ -26,7 +26,8 @@ def playSong(songPath, startTime, vlcPath):
                     "--play-and-exit",
                     "--start-time", str(startTime),
                     "--stop-time", str(startTime + 5), 
-                    "--run-time", str(5),songPath])
+                    "--run-time", str(5),songPath]
+                    ,shell=True)
     print('after playSong ' + songPath)
 
 def getDuration(songPath):
